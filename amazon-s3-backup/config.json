@@ -1,9 +1,8 @@
 {
     "name": "Amazon S3 Backup",
-    "version": "1.0",
+    "version": "0.1",
     "slug": "amazon-s3-backup",
-    "description": "Backup config to S3 bucket",
-    "startup": "before",
+    "description": "Sync Backups to your Amazon S3 bucket",
     "boot": "auto",
     "options": {
       "aws_access_key": "",
