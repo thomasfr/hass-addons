@@ -1,0 +1,19 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Home Assistant Community Add-on: Amazon S3 Backup
+# ==============================================================================
+
+bashio::log.info "Starting Amazon S3 Backup..."
+
+bucket_name="$(bashio::config 'bucket_name')"
+bucket_region="$(bashio::config 'bucket_region')"
+monitor_path="/backup"
+
+export AWS_ACCESS_KEY_ID="$(bashio::config 'aws_access_key')"
+export AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"
+export AWS_REGION="$bucket_region"
+
+#aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+#aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+
+aws s3 sync $monitor_path s3://$bucket_name/ --region $bucket_region
