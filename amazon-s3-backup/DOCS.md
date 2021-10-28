@@ -6,7 +6,7 @@ Follow these steps to get the add-on installed on your system:
 
 1. Enable **Advanced Mode** in your Home Assistant user profile.
 2. Navigate in your Home Assistant frontend to **Supervisor** -> **Add-on Store**.
-3. Find the "Amazon S3 Backup" add-on and click it.
+3. Search for "Amazon S3 Backup" add-on and click on it.
 4. Click on the "INSTALL" button.
 
 ## How to use
@@ -15,6 +15,7 @@ Follow these steps to get the add-on installed on your system:
 2. Start the add-on to sync the `/backup/` directory to the configured `bucket_name`.
 
 ## Automation
+
 To automate your backup creation and syncing to Amazon S3, add these two automations in Home Assistant and modify the automation to your needs:
 ```
 # backups
@@ -76,3 +77,6 @@ Amazon S3 storage class to use when uploading files to S3.
 
 Usage of the addon requires knowledge of Amazon S3 and AWS IAM.
 Under the hood it uses the aws cli version 2, specifically the `aws s3 sync` command.
+
+## Thanks
+This addon is highly inspired by https://github.com/gdrapp/hass-addons and https://github.com/rrostt/hassio-backup-s3
