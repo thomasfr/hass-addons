@@ -12,7 +12,7 @@ RUN apk add -v --update --no-cache \
         && \
     pip3 install --upgrade awscli
 
-COPY run.sh /
-RUN chmod a+x /run.sh
+COPY run /
+RUN chmod a+x /run
 
-CMD [ "/run.sh" ]
+CMD [ "/run" ]
