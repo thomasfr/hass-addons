@@ -1,6 +1,6 @@
 {
     "name": "Amazon S3 Backup",
-    "version": "0.7",
+    "version": "1.0",
     "slug": "amazon-s3-backup",
     "description": "Sync Backups to your Amazon S3 bucket",
     "url": "https://github.com/thomasfr/hass-addons/tree/main/amazon-s3-backup",
@@ -9,7 +9,6 @@
     "init": false,
     "startup": "once",
     "advanced": true,
-    "stage": "experimental",
     "options": {
       "aws_access_key": "",
       "aws_secret_access_key": "",

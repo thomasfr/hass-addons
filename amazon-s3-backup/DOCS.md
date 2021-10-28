@@ -73,6 +73,28 @@ AWS region where the S3 bucket was created.
 ### Option: `storage_class` (required)
 Amazon S3 storage class to use when uploading files to S3.
 
+## Minimal IAM Policy
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAWSS3Sync",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::YOUR-S3-BUCKET-NAME/*",
+                "arn:aws:s3:::YOUR-S3-BUCKET-NAME"
+            ]
+        }
+    ]
+}
+```
+
 ## Support
 
 Usage of the addon requires knowledge of Amazon S3 and AWS IAM.
