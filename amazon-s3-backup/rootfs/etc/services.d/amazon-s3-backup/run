@@ -14,6 +14,8 @@ export AWS_ACCESS_KEY_ID="$(bashio::config 'aws_access_key')"
 export AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"
 export AWS_REGION="$bucket_region"
 
+curl -sSL http://supervisor/backups
+
 bashio::log.info "Using AWS CLI version: '$(aws --version)'"
 bashio::log.info "Command: 'aws s3 sync $monitor_path s3://$bucket_name/ --no-progress --region $bucket_region --storage-class $storage_class'"
 aws s3 sync $monitor_path s3://$bucket_name/ --no-progress --region $bucket_region --storage-class $storage_class
