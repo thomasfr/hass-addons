@@ -11,5 +11,6 @@ RUN apk add -v --update --no-cache \
         py3-pip \
         groff \
         less \
+        jq \
         && \
     pip3 install --upgrade awscli
