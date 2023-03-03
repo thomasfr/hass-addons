@@ -14,3 +14,5 @@ RUN apk add -v --update --no-cache \
         jq \
         && \
     pip3 install --upgrade awscli
+    
+CMD [ "/etc/services.d/amazon-s3-backup/run" ]    
