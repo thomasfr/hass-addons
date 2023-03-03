@@ -3,7 +3,8 @@ FROM ${BUILD_FROM}
 
 ENV LANG C.UTF-8
 
-COPY rootfs /
+COPY run.sh /
+RUN chmod a+x /run.sh
 
 # add aws-cli and deps
 RUN apk add -v --update --no-cache \
@@ -15,4 +16,4 @@ RUN apk add -v --update --no-cache \
         && \
     pip3 install --upgrade awscli
     
-CMD [ "/etc/services.d/amazon-s3-backup/run" ]    
+CMD [ "/run.sh" ]  
