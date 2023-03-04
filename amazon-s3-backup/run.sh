@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
 # ==============================================================================
 # Home Assistant Community Add-on: Amazon S3 Backup
 # ==============================================================================
@@ -14,8 +15,8 @@ local_backups_to_keep="$(bashio::config 'local_backups_to_keep' '3')"
 monitor_path="/backup"
 jq_filter=".backups|=sort_by(.date)|.backups|reverse|.[$local_backups_to_keep:]|.[].slug"
 
-export AWS_ACCESS_KEY_ID="$(bashio::config 'aws_access_key')"
-export AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"
+AWS_ACCESS_KEY_ID="$(bashio::config 'aws_access_key')"; export AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"; export AWS_SECRET_ACCESS_KEY
 export AWS_REGION="$bucket_region"
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
