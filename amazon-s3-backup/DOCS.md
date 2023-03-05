@@ -67,6 +67,9 @@ AWS IAM access key used to access the S3 bucket.
 ### Option: `aws_secret_access_key` (required)
 AWS IAM secret access key used to access the S3 bucket.
 
+### Option: `max_concurrent_requests` (optional, Default: 10)
+Set how many uploads are done in parallel.
+
 ### Option: `bucket_name` (required)
 Amazon S3 bucket used to store backups.
 
