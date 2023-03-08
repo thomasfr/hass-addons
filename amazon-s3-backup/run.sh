@@ -6,6 +6,11 @@
 
 bashio::log.info "Starting Amazon S3 Backup..."
 
+# Required config options
+bashio::config.require 'aws_access_key'
+bashio::config.require 'aws_secret_access_key'
+bashio::config.require 'bucket_name'
+
 bucket_name="$(bashio::config 'bucket_name')"
 storage_class="$(bashio::config 'storage_class' 'STANDARD')"
 bucket_region="$(bashio::config 'bucket_region' 'eu-central-1')"
@@ -13,6 +18,7 @@ delete_local_backups="$(bashio::config 'delete_local_backups' 'true')"
 local_backups_to_keep="$(bashio::config 'local_backups_to_keep' '3')"
 monitor_path="/backup"
 jq_filter=".backups|=sort_by(.date)|.backups|reverse|.[$local_backups_to_keep:]|.[].slug"
+
 
 export AWS_ACCESS_KEY_ID="$(bashio::config 'aws_access_key')"
 export AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"
@@ -27,11 +33,14 @@ for backup in "${backups[@]}"; do
   slug=$(echo "${backup}" | jq -r .slug)
   name=$(echo "${backup}" | jq -r .name)
 
-  bashio::log.info "Uploading ${name}"
+  if ! aws s3 ls "s3://${bucket_name}/${name}.tar" >/dev/null; then
+    bashio::log.info "Uploading ${name}"
 
-  bashio::log.debug "Command: aws s3 cp ${monitor_path}/${slug}.tar s3://${bucket_name}/${name}.tar --no-progress --region ${bucket_region} --storage-class ${storage_class} --metadata '<omitted>'"
-  aws s3 cp "${monitor_path}/${slug}.tar" "s3://${bucket_name}/${name}.tar" --no-progress --region "${bucket_region}" --storage-class "${storage_class}" \
-    --metadata "$(echo "${backup}" | jq '{slug:.slug,name:.name,date:.date,type:.type,size:.size,protected:.protected,compressed:.compressed,homeassistant:.content.homeassistant,addons:.content.addons,folders:.content.folders} | map_values(tostring)')"
+    bashio::log.debug "Command: aws s3 cp ${monitor_path}/${slug}.tar s3://${bucket_name}/${name}.tar --no-progress --region ${bucket_region} --storage-class ${storage_class} --metadata '<omitted>'"
+    aws s3 cp "${monitor_path}/${slug}.tar" "s3://${bucket_name}/${name}.tar" --no-progress --region "${bucket_region}" --storage-class "${storage_class}" \
+      --metadata "$(echo "${backup}" | jq '{slug:.slug,name:.name,date:.date,type:.type,size:.size,protected:.protected,compressed:.compressed,homeassistant:.content.homeassistant,addons:.content.addons,folders:.content.folders} | map_values(tostring)')" \
+      >/dev/null
+  fi
 done
 
 if bashio::var.true "${delete_local_backups}"; then

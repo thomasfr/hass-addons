@@ -18,9 +18,9 @@
   "hassio_api": true,
   "hassio_role": "backup",
   "options": {
-    "aws_access_key": "",
-    "aws_secret_access_key": "",
-    "bucket_name": "",
+    "aws_access_key": null,
+    "aws_secret_access_key": null,
+    "bucket_name": null,
     "bucket_region": "eu-central-1",
     "storage_class": "STANDARD",
     "delete_local_backups": true,
