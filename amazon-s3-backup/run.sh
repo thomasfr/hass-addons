@@ -19,8 +19,20 @@ export AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"
 export AWS_REGION="$bucket_region"
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
-bashio::log.debug "Command: 'aws s3 sync $monitor_path s3://$bucket_name/ --no-progress --region $bucket_region --storage-class $storage_class'"
-aws s3 sync $monitor_path s3://"$bucket_name"/ --no-progress --region "$bucket_region" --storage-class "$storage_class"
+
+readarray -t backups < <(bashio::api.supervisor GET /backups/info false .backups | jq -c '.[]')
+for backup in "${backups[@]}"; do
+  bashio::log.debug $(echo "${backup}" | jq -C .)
+
+  slug=$(echo "${backup}" | jq -r .slug)
+  name=$(echo "${backup}" | jq -r .name)
+
+  bashio::log.info "Uploading ${name}"
+
+  bashio::log.debug "Command: aws s3 cp ${monitor_path}/${slug}.tar s3://${bucket_name}/${name}.tar --no-progress --region ${bucket_region} --storage-class ${storage_class} --metadata '<omitted>'"
+  aws s3 cp "${monitor_path}/${slug}.tar" "s3://${bucket_name}/${name}.tar" --no-progress --region "${bucket_region}" --storage-class "${storage_class}" \
+    --metadata "$(echo "${backup}" | jq '{slug:.slug,name:.name,date:.date,type:.type,size:.size,protected:.protected,compressed:.compressed,homeassistant:.content.homeassistant,addons:.content.addons,folders:.content.folders} | map_values(tostring)')"
+done
 
 if bashio::var.true "${delete_local_backups}"; then
     bashio::log.info "Will delete local backups except the '${local_backups_to_keep}' newest ones."
