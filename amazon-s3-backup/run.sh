@@ -4,20 +4,32 @@
 # ==============================================================================
 #bashio::log.level "debug"
 
-bashio::log.info "Starting Amazon S3 Backup..."
-
 bucket_name="$(bashio::config 'bucket_name')"
 storage_class="$(bashio::config 'storage_class' 'STANDARD')"
-bucket_region="$(bashio::config 'bucket_region' 'eu-central-1')"
 delete_local_backups="$(bashio::config 'delete_local_backups' 'true')"
 local_backups_to_keep="$(bashio::config 'local_backups_to_keep' '3')"
 monitor_path="/backup"
 jq_filter=".backups|=sort_by(.date)|.backups|reverse|.[$local_backups_to_keep:]|.[].slug"
 
-export AWS_ACCESS_KEY_ID="$(bashio::config 'aws_access_key')"
-export AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"
-export AWS_REGION="$bucket_region"
+bashio::log.info "Configure S3 Backup..."
+aws configure set aws_access_key_id "$(bashio::config 'aws_access_key')"
+aws configure set aws_secret_access_key "$(bashio::config 'aws_secret_access_key')"
 
+aws configure set plugins.endpoint awscli_plugin_endpoint
+if bashio::config.has_value "endpoint_url"; then
+    endpoint_url="$(bashio::config 'endpoint_url' '')"
+    bashio::log.info "Configure Amazon S3 Backup endpoint to ${endpoint_url}"
+    aws configure set s3.endpoint_url "${endpoint_url}"
+    aws configure set s3api.endpoint_url "${endpoint_url}"
+fi
+
+if bashio::config.has_value "max_concurrent_requests"; then
+    aws configure set s3.max_concurrent_requests "$(bashio::config 'max_concurrent_requests' '10')"
+fi
+
+aws configure set region "$(bashio::config 'bucket_region' 'eu-central-1')"
+
+bashio::log.info "Starting Amazon S3 Backup..."
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
 bashio::log.debug "Command: 'aws s3 sync $monitor_path s3://$bucket_name/ --no-progress --region $bucket_region --storage-class $storage_class'"
 aws s3 sync $monitor_path s3://"$bucket_name"/ --no-progress --region "$bucket_region" --storage-class "$storage_class"

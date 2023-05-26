@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0
+
+- Add an endpoint_url config
+  - If set, this url will used as s3 api endpoint
+
 ## 1.2.2
 
 - Backup Script was running twice since it was still in services.d folder. Removed all unnecessary files.
