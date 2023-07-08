@@ -9,6 +9,7 @@ bashio::log.info "Starting Amazon S3 Backup..."
 bucket_name="$(bashio::config 'bucket_name')"
 storage_class="$(bashio::config 'storage_class' 'STANDARD')"
 bucket_region="$(bashio::config 'bucket_region' 'eu-central-1')"
+bucket_region_other="$(bashio::config 'bucket_region_other' '')"
 endpoint_url="$(bashio::config 'endpoint_url' '')"
 delete_local_backups="$(bashio::config 'delete_local_backups' 'true')"
 local_backups_to_keep="$(bashio::config 'local_backups_to_keep' '3')"
@@ -22,9 +23,14 @@ export AWS_REGION="$bucket_region"
 # Set optional flags
 [[ -n "$endpoint_url" ]] && ENDPOINT="--endpoint-url $endpoint_url"
 [[ "$storage_class" != "None" ]] && STORAGECLASS="--storage-class \"$storage_class\""
+if [ "$bucket_region" == "Other"]; then
+  [[ -n "$bucket_region_other" ]] && BUCKETREGION="--region \"$bucket_region_other\""
+else
+  BUCKETREGION="--region \"$bucket_region\""
+fi
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
-COMMAND="aws ${ENDPOINT:=} s3 sync $monitor_path s3://\"$bucket_name\"/ --no-progress --region \"$bucket_region\" ${STORAGECLASS:=}"
+COMMAND="aws ${ENDPOINT:=} s3 sync $monitor_path s3://\"$bucket_name\"/ --no-progress ${BUCKETREGION:=} ${STORAGECLASS:=}"
 bashio::log.debug "Command: '$COMMAND'"
 $COMMAND
 
