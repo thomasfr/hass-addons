@@ -1,6 +1,6 @@
-# Home Assistant Addons: Thomas' repository
+# Home Assistant Addons: rarosalion repository
 
-Add-ons for Home Assistant written by Thomas Fritz.
+Add-ons for Home Assistant written by rarosalion.
 To add this repository:
 1. Go to your Home Assistant Frontend
 2. Open **Supervisor** > **Add-On Store**,
@@ -12,4 +12,4 @@ You should now see the add-ons of this repository in your Home Assistant Add-On 
 
 ## Add-ons provided by this repository
 
-- **[Amazon S3 Backup](/amazon-s3-backup)** - Sync your Home Assistant backups to Amazon S3
+- **[Amazon S3 Backup](/amazon-s3-backup)** - Sync your Home Assistant backups to Amazon S3 (update of thomasfr's plugin)
