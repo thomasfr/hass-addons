@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+
+- Added `endpoint_url` option to allow the use of non-AWS S3-compatable object stores (e.g. minio)
+
 ## 1.2.2
 
 - Backup Script was running twice since it was still in services.d folder. Removed all unnecessary files.

@@ -12,7 +12,7 @@ Follow these steps to get the add-on installed on your system:
 ## How to use
 
 1. Set the `aws_access_key`, `aws_secret_access_key`, and `bucket_name`. 
-2. Optionally / if necessary, change `bucket_region`, `storage_class`, and `delete_local_backups` and `local_backups_to_keep` configuration options.
+2. Optionally / if necessary, change `bucket_region`, `storage_class`, `endpoint_url`, `delete_local_backups` and `local_backups_to_keep` configuration options.
 3. Start the add-on to sync the `/backup/` directory to the configured `bucket_name` on Amazon S3. You can also automate this of course, see example below:
 
 ## Automation
@@ -71,10 +71,16 @@ AWS IAM secret access key used to access the S3 bucket.
 Amazon S3 bucket used to store backups.
 
 ### Option: `bucket_region` (optional, Default: eu-central-1)
-AWS region where the S3 bucket was created. See https://aws.amazon.com/about-aws/global-infrastructure/ for all available regions.
+AWS region where the S3 bucket was created. See https://aws.amazon.com/about-aws/global-infrastructure/ for all available regions. If you set this to 'other', a custom bucket region (or no region) can be set in bucket_region_other
+
+### Option: `bucket_region_other` (optional, Default: empty)
+If 'bucket_Region' is set to 'other', then a custom region value set here will be used instead. If this value is empty, no region will be requested.
+
+### Option: `endpoint_url` (optional, Defaault: empty)
+If you wish to use a non-AWS S3-compatable server (e.g. minio), you can set the endpoint url (e.g. https://myminioserver.local:9000) here. Leave this value blank if you're using AWS.
 
 ### Option: `storage_class` (optional, Default: STANDARD)
-Amazon S3 storage class to use for the synced objects, when uploading files to S3. One of STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE. For more information see https://aws.amazon.com/s3/storage-classes/.
+Amazon S3 storage class to use for the synced objects, when uploading files to S3. One of STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE. For more information see https://aws.amazon.com/s3/storage-classes/. If you select 'None', no storage class will be specified (leaving the s3 provider to select the default option).
 
 ### Option: `delete_local_backups` (optional, Default: true)
 Should the addon remove oldest local backups after syncing to your Amazon S3 Bucket? You can configure how many local backups you want to keep with the Option `local_backups_to_keep`. Oldest Backups will get deleted first.
