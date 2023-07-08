@@ -24,7 +24,7 @@ export AWS_REGION="$bucket_region"
 [[ "$storage_class" != "None" ]] && STORAGECLASS="--storage-class \"$storage_class\""
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
-COMMAND="aws $ENDPOINT s3 sync $monitor_path s3://\"$bucket_name\"/ --no-progress --region \"$bucket_region\" $STORAGECLASS"
+COMMAND="aws ${ENDPOINT:=} s3 sync $monitor_path s3://\"$bucket_name\"/ --no-progress --region \"$bucket_region\" ${STORAGECLASS:=}"
 bashio::log.debug "Command: '$COMMAND'"
 $COMMAND
 
