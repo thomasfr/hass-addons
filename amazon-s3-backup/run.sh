@@ -19,7 +19,7 @@ export AWS_ACCESS_KEY_ID="$(bashio::config 'aws_access_key')"
 export AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"
 export AWS_REGION="$bucket_region"
 
-[ ! -z ${endpoint_url+x}] && ENDPOINT="--endpoint-url=$endpoint_url"
+[ ! -z ${endpoint_url+x} ] && ENDPOINT="--endpoint-url=$endpoint_url"
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
 COMMAND=aws $ENDPOINT s3 sync $monitor_path s3://"$bucket_name"/ --no-progress --region "$bucket_region" --storage-class "$storage_class"
