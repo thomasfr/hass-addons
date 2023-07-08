@@ -1,6 +1,6 @@
 {
   "name": "Amazon S3 Backup",
-  "version": "1.2.3c",
+  "version": "1.2.3d",
   "slug": "amazon-s3-backup",
   "description": "Sync Backups to your Amazon S3 bucket",
   "url": "https://github.com/thomasfr/hass-addons/tree/main/amazon-s3-backup",
@@ -22,6 +22,7 @@
     "aws_secret_access_key": "",
     "bucket_name": "",
     "bucket_region": "eu-central-1",
+    "bucket_region_other": "",
     "endpoint_url": "",
     "storage_class": "STANDARD",
     "delete_local_backups": true,
