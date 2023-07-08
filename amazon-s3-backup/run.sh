@@ -19,15 +19,12 @@ export AWS_ACCESS_KEY_ID="$(bashio::config 'aws_access_key')"
 export AWS_SECRET_ACCESS_KEY="$(bashio::config 'aws_secret_access_key')"
 export AWS_REGION="$bucket_region"
 
-if [ -n "$endpoint_url" ]
-then
-    ENDPOINT="--endpoint-url $endpoint_url"
-else
-    ENDPOINT=""
-fi
+# Set optional flags
+[[ -n "$endpoint_url" ]] && ENDPOINT="--endpoint-url $endpoint_url"
+[[ "$storage_class" != "None" ]] && STORAGECLASS="--storage-class \"$storage_class\""
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
-COMMAND="aws $ENDPOINT s3 sync $monitor_path s3://\"$bucket_name\"/ --no-progress --region \"$bucket_region\" --storage-class \"$storage_class\""
+COMMAND="aws $ENDPOINT s3 sync $monitor_path s3://\"$bucket_name\"/ --no-progress --region \"$bucket_region\" $STORAGECLASS"
 bashio::log.debug "Command: '$COMMAND'"
 $COMMAND
 
