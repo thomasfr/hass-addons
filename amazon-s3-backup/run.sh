@@ -22,15 +22,15 @@ export AWS_REGION="$bucket_region"
 
 # Set optional flags
 [[ -n "$endpoint_url" ]] && ENDPOINT="--endpoint-url $endpoint_url"
-[[ "$storage_class" != "None" ]] && STORAGECLASS="--storage-class \"$storage_class\""
+[[ "$storage_class" != "None" ]] && STORAGECLASS="--storage-class $storage_class"
 if [ "$bucket_region" == "other" ]; then
-  [[ -n "$bucket_region_other" ]] && BUCKETREGION="--region \"$bucket_region_other\""
+  [[ -n "$bucket_region_other" ]] && BUCKETREGION="--region $bucket_region_other"
 else
-  BUCKETREGION="--region \"$bucket_region\""
+  BUCKETREGION="--region $bucket_region"
 fi
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
-COMMAND="aws ${ENDPOINT:=} s3 sync $monitor_path s3://\"$bucket_name\"/ --no-progress ${BUCKETREGION:=} ${STORAGECLASS:=}"
+COMMAND="aws ${ENDPOINT:=} s3 sync $monitor_path s3://$bucket_name/ --no-progress ${BUCKETREGION:=} ${STORAGECLASS:=}"
 bashio::log.debug "Command: '$COMMAND'"
 $COMMAND
 
