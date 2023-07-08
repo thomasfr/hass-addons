@@ -2,7 +2,7 @@
 # ==============================================================================
 # Home Assistant Community Add-on: Amazon S3 Backup
 # ==============================================================================
-bashio::log.level "debug"
+#bashio::log.level "debug"
 
 bashio::log.info "Starting Amazon S3 Backup..."
 
