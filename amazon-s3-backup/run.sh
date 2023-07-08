@@ -22,8 +22,9 @@ export AWS_REGION="$bucket_region"
 [ ! -z ${endpoint_url+x}] && ENDPOINT="--endpoint-url=$endpoint_url
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
-bashio::log.debug "Command: 'aws s3 sync $monitor_path s3://$bucket_name/ --no-progress --region $bucket_region --storage-class $storage_class'"
-aws $ENDPOINT s3 sync $monitor_path s3://"$bucket_name"/ --no-progress --region "$bucket_region" --storage-class "$storage_class"
+COMMAND=aws $ENDPOINT s3 sync $monitor_path s3://"$bucket_name"/ --no-progress --region "$bucket_region" --storage-class "$storage_class"
+bashio::log.debug "Command: '$COMMAND'"
+$COMMAND
 
 if bashio::var.true "${delete_local_backups}"; then
     bashio::log.info "Will delete local backups except the '${local_backups_to_keep}' newest ones."
