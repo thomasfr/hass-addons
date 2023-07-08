@@ -1,6 +1,6 @@
 {
   "name": "Amazon S3 Backup",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "slug": "amazon-s3-backup",
   "description": "Sync Backups to your Amazon S3 bucket",
   "url": "https://github.com/thomasfr/hass-addons/tree/main/amazon-s3-backup",
