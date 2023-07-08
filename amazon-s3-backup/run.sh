@@ -23,7 +23,7 @@ export AWS_REGION="$bucket_region"
 # Set optional flags
 [[ -n "$endpoint_url" ]] && ENDPOINT="--endpoint-url $endpoint_url"
 [[ "$storage_class" != "None" ]] && STORAGECLASS="--storage-class \"$storage_class\""
-if [ "$bucket_region" == "Other"]; then
+if [ "$bucket_region" == "other" ]; then
   [[ -n "$bucket_region_other" ]] && BUCKETREGION="--region \"$bucket_region_other\""
 else
   BUCKETREGION="--region \"$bucket_region\""
