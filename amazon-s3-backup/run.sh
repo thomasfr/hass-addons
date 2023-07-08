@@ -22,7 +22,7 @@ export AWS_REGION="$bucket_region"
 [ -n "$endpoint_url" ] && ENDPOINT="--endpoint-url=$endpoint_url"
 
 bashio::log.debug "Using AWS CLI version: '$(aws --version)'"
-COMMAND=aws $ENDPOINT s3 sync $monitor_path s3://"$bucket_name"/ --no-progress --region "$bucket_region" --storage-class "$storage_class"
+COMMAND="aws $ENDPOINT s3 sync $monitor_path s3://\"$bucket_name\"/ --no-progress --region \"$bucket_region\" --storage-class \"$storage_class\""
 bashio::log.debug "Command: '$COMMAND'"
 $COMMAND
 
