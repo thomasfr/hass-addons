@@ -1,6 +1,6 @@
-# Home Assistant Addons: Thomas' repository
+# Citrus Home Assistant Addons
 
-Add-ons for Home Assistant written by Thomas Fritz.
+Add-ons for Home Assistant written by Thomas Fritz and modified to suit our needs.
 To add this repository:
 1. Go to your Home Assistant Frontend
 2. Open **Supervisor** > **Add-On Store**,
