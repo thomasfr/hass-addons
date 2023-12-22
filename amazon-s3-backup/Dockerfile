@@ -14,6 +14,6 @@ RUN apk add -v --update --no-cache \
         less \
         jq \
         && \
-    pip3 install --upgrade awscli
+    pip3 install --break-system-packages --upgrade awscli
     
 CMD [ "/run.sh" ]  
